@@ -1,13 +1,14 @@
 import math, time
 
+
 class BinaryHeap:
     def __init__(self):
         self.H = []
-        
+
     def __repr__(self):
         return str(self.H)
 
-    def lchild(self, i):     
+    def lchild(self, i):
         """
         See test_lchild below.
 
@@ -16,9 +17,9 @@ class BinaryHeap:
         Returns:
         j....index of the left child of node i, or -1 if n/a
         """
-        if (2*i + 1) < len(self.H):
+        if (2 * i + 1) < len(self.H):
             ## TODO
-            pass
+            return 2 * i + 1
         else:
             return -1
 
@@ -31,9 +32,9 @@ class BinaryHeap:
         Returns:
         j....index of the right child of node i, or -1 if n/a
         """
-        if (2*i + 2) < len(self.H):
+        if (2 * i + 2) < len(self.H):
             ## TODO
-            pass
+            return 2 * i + 2
         else:
             return -1
 
@@ -47,10 +48,10 @@ class BinaryHeap:
         j....index of the parent of node i, or -1 if n/a
         """
         if i > 0:
-            ## TODO 
-            pass
+            ## TODO
+            return (i - 1) // 2
         else:
-            return 0
+            return -1
 
     def reheapUp(self, i):
         """
@@ -66,10 +67,12 @@ class BinaryHeap:
         """
         c = i
         p = self.parent(i)
-        print("reheaping  up from %d"%i)
-        while ((c != 0) and (self.H[c] < self.H[p])):
+        print("reheaping  up from %d" % i)
+        while (c != 0) and (self.H[c] < self.H[p]):
             ## TODO
-            pass
+            self.H[c], self.H[p] = self.H[p], self.H[c]  # Update node value?
+            c = p
+            p = self.parent(c)  # Update index
 
     # restore the heap property going downward from node i
     def reheapDown(self, i):
@@ -87,11 +90,18 @@ class BinaryHeap:
         c = i
         l = self.lchild(i)
         r = self.rchild(i)
-        while (l > 0 and (self.H[c] > self.H[l])) or (r > 0 and (self.H[c] > self.H[r])):
+        while (l > 0 and (self.H[c] > self.H[l])) or (
+            r > 0 and (self.H[c] > self.H[r])
+        ):
             ## TODO
-            pass
-        
-        
+            minIdx = l if self.H[l] < self.H[r] else r
+            self.H[c], self.H[minIdx] = self.H[minIdx], self.H[c]  # Swap node in list
+
+            # Update index value and its child
+            c = minIdx
+            l = self.lchild(c)
+            r = self.rchild(c)
+
     def deleteMin(self):
         """
         Remove the root node to return its value.
@@ -103,12 +113,14 @@ class BinaryHeap:
         the minimum value in the heap.
         """
         m = self.H[0]
-        if (len(self.H) > 1):
+        if len(self.H) > 1:
             ## TODO
-            pass
-
+            # Swap root with last node
+            self.H[0] = self.H[-1]
+            self.H.pop()
+            self.reheapDown(0)
         else:
-            self.H.pop() # removes the only element left
+            self.H.pop()  # removes the only element left
         return m
 
     def insert(self, x):
@@ -119,11 +131,13 @@ class BinaryHeap:
 
         Returns nothing.
         """
-        pass
+        self.H.append(x)
+        self.reheapUp(len(self.H) - 1)
+
 
 def heapsort(a):
     """
-    Sort a list a by first creating a heap, then 
+    Sort a list a by first creating a heap, then
     iteratively removing the smallest element to
     construct the sorted list
 
@@ -136,5 +150,8 @@ def heapsort(a):
     H = BinaryHeap()
     sorted_a = []
     ## TO DO
+    while len(H) > 0:
+        sorted_a.append(H[0])
+        H.pop()
 
     return sorted_a
