@@ -1,3 +1,5 @@
+# Name: Chuong Hoang Pham
+
 import math, time
 
 
@@ -150,8 +152,17 @@ def heapsort(a):
     H = BinaryHeap()
     sorted_a = []
     ## TO DO
-    while len(H) > 0:
-        sorted_a.append(H[0])
-        H.pop()
+    # Convert a list into a heap
+    H.H = a[:]  # Copy the original list first.
+
+    # Calculate non-leaf nodes to create a heap
+    for i in range((len(H.H) // 2) - 1, -1, -1):
+        H.reheapDown(i)
+
+    print(H)  # Check if H returns correctly
+
+    # Get the sorted list by pop the root
+    while len(H.H) > 0:
+        sorted_a.append(H.deleteMin())
 
     return sorted_a

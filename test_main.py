@@ -63,3 +63,8 @@ def test_heapsort():
     L = [12,5,1,6,9,10,8,2]
     assert heapsort(L) == sorted(L)    
 
+
+def test_heapsort_requires_complete_heap_construction():
+    L = [1, 2, 3, 4, 5, 0]
+    assert heapsort(L) == sorted(L)
+
